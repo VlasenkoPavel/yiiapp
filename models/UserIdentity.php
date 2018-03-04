@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class User extends ActiveRecord implements \yii\web\IdentityInterface
+class UserIdentity extends ActiveRecord implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
@@ -18,7 +18,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return User::findOne(['id'=>$id]);
+        return UserIdentity::findOne(['id'=>$id]);
     }
 
     /**
@@ -43,7 +43,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return User::findOne(['name'=>$username]);
+        return UserIdentity::findOne(['name'=>$username]);
     }
 
     /**
