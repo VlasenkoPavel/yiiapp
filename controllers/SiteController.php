@@ -144,7 +144,22 @@ class SiteController extends Controller
             ];
 
             $user = new User;
+
+//            $user->username = "Pavel";
+//            $user->email = "email@mail.ru";
+//            $user->password = password_hash($model->password, PASSWORD_DEFAULT);
+//            $user->auth_key = \Yii::$app->security->generateRandomString();
+//            $user->reg_date = date("Y-m-d");
+
             $user->attributes = $userData;
+
+//            echo '<pre>';
+//                echo var_dump($user->username);
+//            die('</pre>');
+
+//          $user->attributes = $userData;
+//          $user = new User($userData);
+
 
             if ($user->validate()) {
                 $user->save();
