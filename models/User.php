@@ -13,12 +13,12 @@ use yii\db\ActiveRecord;
 class User extends ActiveRecord
 
 {
-    public $id;
-    public $username;
-    public $password;
-    public $email;
-    public $auth_key;
-    public $reg_date;
+//    public $id;
+//    public $username;
+//    public $password;
+//    public $email;
+//    public $auth_key;
+//    public $reg_date;
 
     public static function tableName()
     {

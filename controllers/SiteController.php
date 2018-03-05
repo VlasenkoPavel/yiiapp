@@ -162,6 +162,7 @@ class SiteController extends Controller
 
 
             if ($user->validate()) {
+
                 $user->save();
             }
 
