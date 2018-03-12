@@ -8,7 +8,7 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  *
- * @property UserIdentity|null $user This property is read-only.
+ * @property User|null $user This property is read-only.
  *
  */
 class LoginForm extends Model
@@ -21,7 +21,7 @@ class LoginForm extends Model
 
 
     /**
-     * @return array the validation rules.
+     * @return array the validation rules.LoginForm
      */
     public function rules()
     {
@@ -68,12 +68,12 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return UserIdentity|null
+     * @return User|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = UserIdentity::findByUsername($this->username);
+            $this->_user = User::findByUsername($this->username);
         }
 
         return $this->_user;

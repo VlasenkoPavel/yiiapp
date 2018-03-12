@@ -1,25 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pavel
- * Date: 04.03.18
- * Time: 14:13
- */
 
 namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class User extends ActiveRecord
-
+class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
-//    public $id;
-//    public $username;
-//    public $password;
-//    public $email;
-//    public $auth_key;
-//    public $reg_date;
-
     public static function tableName()
     {
         return 'user';
@@ -28,8 +14,77 @@ class User extends ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'password', 'email', 'auth_key', 'reg_date'], 'required'],
-            ['email', 'email'],
+            [['username','name', 'surname', 'password', 'access_token', 'email', 'created_at'], 'required'],
+            [['username', 'email'], 'unique'],
+            ['email', 'email']
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentity($id)
+    {
+        return User::findOne(['id'=>$id]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+//        foreach (self::$users as $user) {
+//            if ($user['accessToken'] === $token) {
+//                return new static($user);
+//            }
+//        }
+//
+//        return null;
+    }
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return User::findOne(['username'=>$username]);
+    }
+
+    /**findOne
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthKey()
+    {
+        return $this->authKey;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->authKey === $authKey;
+    }
+
+    /**
+     * Validates password
+     *
+     * @param string $password password to validate
+     * @return bool if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return password_verify($password , $this->password);
     }
 }

@@ -14,6 +14,7 @@ use app\models\User;
 
 class SiteController extends Controller
 {
+    public $layout = 'testLayout';
     /**
      * {@inheritdoc}
      */
@@ -79,11 +80,13 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
 
         $model->password = '';
+
         return $this->render('login', [
             'model' => $model,
         ]);
@@ -109,11 +112,13 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
 
             return $this->refresh();
         }
+
         return $this->render('contact', [
             'model' => $model,
         ]);
@@ -133,43 +138,14 @@ class SiteController extends Controller
     {
         $model = new RegistrationForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $userData = [
-                'username' => $model->name,
-                'email' => $model->email,
-                'password' => password_hash($model->password, PASSWORD_DEFAULT),
-                'auth_key' => \Yii::$app->security->generateRandomString(),
-                'reg_date' => date("Y-m-d")
-            ];
-
-            $user = new User;
-
-//            $user->username = "Pavel";
-//            $user->email = "email@mail.ru";
-//            $user->password = password_hash($model->password, PASSWORD_DEFAULT);
-//            $user->auth_key = \Yii::$app->security->generateRandomString();
-//            $user->reg_date = date("Y-m-d");
-
-            $user->attributes = $userData;
-
-//            echo '<pre>';
-//                echo var_dump($user->username);
-//            die('</pre>');
-
-//          $user->attributes = $userData;
-//          $user = new User($userData);
-
-
-            if ($user->validate()) {
-
-                $user->save();
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->signUp()) {
 
             return $this->render('registration-confirm', ['model' => $model]);
 
         } else {
-            return $this->render('registration', ['model' => $model]);
+            $message = $model->message;
+
+            return $this->render('registration', ['model' => $model, 'message' => $message]);
         }
     }
 }
