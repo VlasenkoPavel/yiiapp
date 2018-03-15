@@ -11,14 +11,14 @@ class m180311_100647_create_access extends Migration
     {
         $this->createTable('access', [
             'id' => $this->primaryKey(),
-            'note_id' => $this->integer()->notNull(),
+            'task_id' => $this->integer()->notNull(),
             'user_id' => $this->integer()->notNull()
         ]);
 
         $this->createIndex(
             'fk_access_1_idx',
             'access',
-            'note_id'
+            'task_id'
         );
 
         $this->createIndex(

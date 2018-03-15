@@ -16,7 +16,7 @@ class m180311_103338_add_test_users extends Migration
             'password' => password_hash('001qwe', PASSWORD_DEFAULT),
             'email' => 'admin-email.ru',
             'access_token' => \Yii::$app->security->generateRandomString(),
-            'created_at' => date('Y-m-d')
+            'created_at' => date('Y-m-d G:i:s')
         ]);
 
         $this->insert('user', [
@@ -26,7 +26,7 @@ class m180311_103338_add_test_users extends Migration
             'password' => password_hash('001qwe', PASSWORD_DEFAULT),
             'email' => 'ivan-email.ru',
             'access_token' => \Yii::$app->security->generateRandomString(),
-            'created_at' => date('Y-m-d')
+            'created_at' => date('Y-m-d G:i:s')
         ]);
 
         $this->insert('user', [
@@ -36,7 +36,7 @@ class m180311_103338_add_test_users extends Migration
             'password' => password_hash('001qwe', PASSWORD_DEFAULT),
             'email' => 'petr-email.ru',
             'access_token' => \Yii::$app->security->generateRandomString(),
-            'created_at' => date('Y-m-d')
+            'created_at' => date('Y-m-d G:i:s')
         ]);
 
     }
