@@ -24,6 +24,12 @@ return [
         'urlManager' => [
             'showScriptName' => true,
         ],
+//        'urlManager' => [
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//            'enableStrictParsing' => false,
+//            'rules' => [
+//        ],
         'user' => [
             'identityClass' => 'app\models\User',
         ],

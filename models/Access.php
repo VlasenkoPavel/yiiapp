@@ -17,9 +17,9 @@ use \app\models\query\AccessQuery;
  */
 class Access extends \yii\db\ActiveRecord
 {
-    const ACCESS_CREATOR = 1;
+    const ACCESS_CREATOR = 3;
     const ACCESS_EXECUTOR = 2;
-    const ACCESS_GUEST = 3;
+    const ACCESS_GUEST = 1;
     const ACCESS_NO = 0;
 
     /**
@@ -61,16 +61,16 @@ class Access extends \yii\db\ActiveRecord
      */
     public static function checkAccess(Task $model, int $userId): int
     {
-        if($model->creator == $userId) {
+        if($model->creator_id == $userId) {
             return self::ACCESS_CREATOR;
         }
 
-        if($model->executor == $userId) {
+        if($model->executor_id == $userId) {
             return self::ACCESS_EXECUTOR;
         }
 
         $existsAccess = self::find()
-            ->withNote($model->id)
+            ->withTask($model->id)
             ->withUser($userId)
             ->exists();
 

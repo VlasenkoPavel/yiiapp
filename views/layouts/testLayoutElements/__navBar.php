@@ -19,6 +19,7 @@
                 ['label' => 'About', 'url' => ['/site/about']],
                 ['label' => 'Contact', 'url' => ['/site/contact']],
                 ['label' => 'Registration', 'url' => ['/site/registration']],
+                ['label' => 'Tasks', 'url' => ['/task/index']],
                 Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
                 ) : (

@@ -55,12 +55,13 @@ class Task extends \yii\db\ActiveRecord
 //            [['name', 'description', 'creator_id', 'created_at'], 'required'],
             [['name', 'description'], 'required'],
             [['description'], 'string'],
-            [['creator_id', 'executor_id'], 'integer'],
+//            [['creator_id', 'executor_id'], 'integer'],
+            [['executor_id'], 'integer'],
 //            [['created_at', 'updated_at', 'deadline'], 'datetime'],
 //            [['deadline'], 'datetime'],
             [['name'], 'string', 'max' => 255],
-            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['executor_id' => 'id']],
+//            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
+//            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['executor_id' => 'id']],
         ];
     }
 
@@ -71,10 +72,11 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Task name',
             'description' => 'Description',
             'creator_id' => 'Creator ID',
-            'executor_id' => 'Executor ID',
+            'executor' =>'Executor name',
+            'executor_id' => 'Executor',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'deadline' => 'Deadline',
@@ -108,8 +110,11 @@ class Task extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if ($this->isNewRecord)
-        {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        if ($this->isNewRecord) {
             $this->creator_id = Yii::$app->user->getId();
         }
 

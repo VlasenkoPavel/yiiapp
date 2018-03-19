@@ -15,6 +15,36 @@ class AccessQuery extends \yii\db\ActiveQuery
     }*/
 
     /**
+     * Condition with task_id
+     * @param $task_id
+     * @return $this
+     */
+    public function withTask(int $task_id)
+    {
+        return $this->andWhere(
+            'task_id = :task_id',
+            [
+                ":task_id" => $task_id
+            ]
+        );
+    }
+
+    /**
+     * Condition with user_id
+     * @param $user_id
+     * @return $this
+     */
+    public function withUser(int $user_id)
+    {
+        return $this->andWhere(
+            'user_id = :user_id',
+            [
+                ":user_id" => $user_id
+            ]
+        );
+    }
+
+    /**
      * @inheritdoc
      * @return Access[]|array
      */

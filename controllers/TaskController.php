@@ -8,12 +8,16 @@ use app\models\search\TaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\models\Access;
 
 /**
  * TaskController implements the CRUD actions for Task model.
  */
 class TaskController extends Controller
 {
+    public $layout = 'testLayout';
+
     /**
      * @inheritdoc
      */
@@ -95,9 +99,25 @@ class TaskController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+//        if(Access::checkIsCreator($model)) {
+//            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//                return $this->redirect(['view', 'id' => $model->id]);
+//            } else {
+//                return $this->render('update', [
+//                    'model' => $model,
+//                ]);
+//            }
+//        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model = $this->findModel($id);
+        $userId = Yii::$app->user->getId();
+        $access = Access::checkAccess($model, $userId);
+
+        if($access < Access::ACCESS_CREATOR) {
+            return $this->render('/site/no_access');
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->savenote_id()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
