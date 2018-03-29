@@ -99,16 +99,6 @@ class TaskController extends Controller
      */
     public function actionUpdate($id)
     {
-//        if(Access::checkIsCreator($model)) {
-//            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//                return $this->redirect(['view', 'id' => $model->id]);
-//            } else {
-//                return $this->render('update', [
-//                    'model' => $model,
-//                ]);
-//            }
-//        }
-
         $model = $this->findModel($id);
         $userId = Yii::$app->user->getId();
         $access = Access::checkAccess($model, $userId);
@@ -117,7 +107,7 @@ class TaskController extends Controller
             return $this->render('/site/no_access');
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->savenote_id()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -135,6 +125,14 @@ class TaskController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
+        $userId = Yii::$app->user->getId();
+        $access = Access::checkAccess($model, $userId);
+
+        if($access < Access::ACCESS_CREATOR) {
+            return $this->render('/site/no_access');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
